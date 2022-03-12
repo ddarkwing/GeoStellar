@@ -1,7 +1,6 @@
 import React from 'react';
 
 import theme from '../../theme'
-import Login from '../../Login'
 import {AccountContext} from '../../Context.js';
 import StellarSdk from 'stellar-sdk'
 
