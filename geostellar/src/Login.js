@@ -1,32 +1,30 @@
-import { createContext, useState, useContext } from "react";
+import {AccountContext} from './Context.js';
+
+import React, { useState, useContext } from "react";
 import Button from '@mui/material/Button';
 import StellarSdk from 'stellar-sdk'
 
-import AccountContext from '../../AccountContext'
 
 const Login = () => {
+
     const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
 
-    const Account = useContext(AccountContext);
-    const {publicK, setPublic} = Account
+    const {publicK, setPublicK} = useContext(AccountContext)
 
-    console.log(publicK)
-
-    var loggedIn = false;
-    var publicKey = ``;
-
+    // Create New Keypair
     const newKeypair = () => {
         return StellarSdk.Keypair.random();
     }
 
-    const [keypair, setKeypair] = useState(newKeypair)
+    const keypair = newKeypair();
 
-    const newAcc = (pair) => {
+    // Create New Account Callback 
+    const newAcc = (keypair) => {
         
         (async function main() {
             try {
                 const response = await fetch( `https://friendbot.stellar.org?addr=${encodeURIComponent(
-                    pair.publicKey(),
+                    keypair.publicKey(),
                     )}`,)
                 const responseJSON = await response.json();
                 console.log("SUCCESS! You have a new account :)\n", responseJSON);
@@ -36,6 +34,7 @@ const Login = () => {
         })();
     }
 
+    // Use Secret Key Callback
     const useSecretKey = () => {
         return
     };
@@ -43,10 +42,11 @@ const Login = () => {
     return (
         <div>
             <Button onClick={() => {
-          newAcc(keypair);
-          setPublic(keypair.publicKey());
+        newAcc(keypair);
+        const acc = keypair.publicKey();
+        setPublicK(acc);
         }}>
-            Create new Keypair</Button>
+            Create New Keypair {publicK}</Button>
 
             <Button onClick={useSecretKey}>
             Login with SecretKey</Button>
