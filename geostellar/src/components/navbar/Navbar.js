@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, setState, state } from "react";
 import { css } from "@emotion/react";
-import RingLoader from "react-spinners/RingLoader";
+import HashLoader from "react-spinners/HashLoader";
 
 import theme from '../../theme'
 import {AccountContext, LoadingContext} from '../../Context.js';
@@ -182,21 +182,21 @@ const Navbar = () => {
         <div className = "navbar"
         style = {{ display: 'flex', 
         flexDirection: 'row',
-        padding: '25px 100px',
+        padding: '25px 80px',
         alignItems: 'center',
         justifyContent: 'space-between'}}>
 
-            <h1 style={{fontSize: '35px', padding: '0px 0px', margin: '0px'}}>GeoStellar</h1>
+            <h1 style={{fontSize: '35px', fontFamily: 'IBM Plex Sans' ,padding: '0px 0px', margin: '0px'}}>GeoStellar</h1>
 
         
             <div className = "navbar_selection">
 
-                <Button variant="text" theme={theme} style={{fontSize: '25px', margin: '0px 30px'}}>MAP</Button>
+                {/* <Button variant="text" theme={theme} style={{fontSize: '25px', fontFamily: 'IBM Plex Sans', margin: '0px 30px'}}>MAP</Button>
 
-                <Button variant="text" theme={theme} style={{fontSize: '25px', margin: '0px 30px'}}>NFT</Button>
+                <Button variant="text" theme={theme} style={{fontSize: '25px', fontFamily: 'IBM Plex Sans', margin: '0px 30px'}}>NFT</Button> */}
 
                 <Button id="top-btn" variant="contained" startIcon={<AccountBalanceWalletIcon />}
-                theme={theme} style={{borderRadius: '25px', fontSize: '25px', padding: '0px 25px', height: '70px', margin: '0px 15px 0px 40px', rowgap: '5px'}}
+                theme={theme} style={{borderRadius: '25px', fontSize: '18px', fontFamily: 'IBM Plex Sans', padding: '0px 25px', height: '60px', margin: '10px 0px 10px 20px', rowgap: '5px'}}
                 onClick={openLogin}>Connect Account
                 </Button>
 
@@ -259,7 +259,7 @@ const Navbar = () => {
             
                 <div className="loading" style={{position: "absolute", top: "50%",  left: "0",
                 right: "0", margin: "auto", transform: "translateY(-50%)", zIndex: '5'}}>
-                    <RingLoader color={color} loading={loading} css={override} size={150} />
+                    <HashLoader color={color} loading={loading} css={override} size={150} />
                     <div height="20%"></div>
                     <p color={color} hidden={!loading} paddingTop="20">Private Key is being generated</p>
                 </div>
