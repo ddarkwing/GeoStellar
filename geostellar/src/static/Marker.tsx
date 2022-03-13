@@ -54,10 +54,10 @@ const Marker = (props: any) => {
         </button>
         <div className="header"> {name} </div>
         <SplitPane split="vertical" allowResize={false}>
-          <div className="content" style ={{padding: '50px 0px', display: 'flex', justifyContent: 'center'}}> 
-            <img src={logo} style = {{width: '200px', height:'200px'}}/><img></img>
+          <div className="content" style ={{padding: '50px 10px', display: 'flex', justifyContent: 'center'}}> 
+            <img src={logo} style = {{width: '20vw', height:'20vw'}}/><img></img>
           </div>
-          <div className="content" style={{padding: '50px 0px', display: 'flex', justifyContent: 'center'}}>or you can use a plain old div</div>
+          <div className="content" style={{padding: '50px 20px', fontSize: '1vw', display: 'flex', justifyContent: 'center'}}>{desc}</div>
 
         </SplitPane>
         
