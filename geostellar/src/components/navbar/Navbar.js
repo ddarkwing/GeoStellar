@@ -5,7 +5,7 @@ import RingLoader from "react-spinners/RingLoader";
 
 import theme from '../../theme'
 import {AccountContext, LoadingContext} from '../../Context.js';
-import StellarSdk from 'stellar-sdk'
+import StellarSdk, { StellarTomlResolver } from 'stellar-sdk'
 
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -31,7 +31,19 @@ const Navbar = () => {
     const [open, setOpen] = React.useState(false);
     const [openKey, setOpenKey] = React.useState(false);
     const {publicK, setPublicK} = React.useContext(AccountContext)
+    const [privateK, setPrivateK] = React.useState('')
+    const {balanceP, setBalance} = React.useContext(AccountContext)
     
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if (privateK) {
+            console.log(privateK)
+        }
+        closeLogin()
+        secretKey(privateK)
+        getBalance(publicK)
+        
+    }
 
     const openLogin = () => {
         setOpen(true);
@@ -66,9 +78,7 @@ const Navbar = () => {
         const toggle = React.useCallback(() => {
           setValue(v => !v);
         }, []);
-        console.log('value'+ value);
         setLoading(value);
-        console.log(loading);
         return [value, toggle];
       }
 
@@ -104,26 +114,32 @@ const Navbar = () => {
     }
 
     // Use Secret Key Callback
-    const useSecretKey = () => {
-        
+    const secretKey = (privateKey) => {
+
+        console.log(publicK  + ' none')
+
+        const secretPair = StellarSdk.Keypair.fromSecret(privateKey)
+        console.log(secretPair.publicKey())
+        setPublicK(secretPair.publicKey())
     };
 
     // Get Balance of Account
-    // const getBalance = (publicKey) => {
-    //     (async function () {
-    //         try {
-    //             const account = await server.loadAccount(publicKey);
-    //             account.balances.forEach(function (balance) {
-    //                 if (balance.asset_type = 'native') {
-    //                     return balance.balance;
-    //                 }
-    //             });
-    //             return ;}
-    //         catch {
-    //             console.log("error")
-    //         }
-    //     });
-    // }
+    const getBalance = (publicKey) => {
+
+        (async function main() {
+            try {
+                const account = await server.loadAccount(publicKey);
+                account.balances.forEach(function (balance) {
+                    if (balance.asset_type = 'native') {
+                        setBalance(balance)
+                    }
+                });
+            }
+            catch {
+                console.log("error")
+            }
+        })();
+    }
 
     let [color] = useState("#3E1BDB");
 
@@ -167,18 +183,25 @@ const Navbar = () => {
                         }} startIcon={<AddCard />}>
                             
                             Create New Keypair</Button>
+                            
+                        <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+                            <TextField
+                                onChange={(e) => setPrivateK(e.target.value)}
+                                autoFocus
+                                margin="normal"
+                                id="secret"
+                                label="Secret Key"
+                                fullWidth
+                                variant="standard"
+                                required
+                            />
 
-                        <TextField
-                            autoFocus
-                            margin="normal"
-                            id="secret"
-                            label="Secret Key"
-                            fullWidth
-                            variant="standard"
-                        />
-
-                        <Button onClick={useSecretKey} startIcon={<KeyIcon />}>
-                        Login with SecretKey</Button>
+                            <Button 
+                                startIcon={<KeyIcon />}
+                                type="submit"
+                                >
+                            Login with SecretKey</Button>
+                        </form>
 
 
             
@@ -192,11 +215,19 @@ const Navbar = () => {
                             Secret Key: {keypair.secret()}
                         </DialogContent>
 
+                        <DialogContent>
+                            Balance: {balanceP}
+                        </DialogContent>
+
                 </Dialog>
             </div>
-            <div className="loading" style={{position: "absolute", top: "50%",  left: "0",
-            right: "0", margin: "auto", transform: "translateY(-50%)"}}>
-                <RingLoader color={color} loading={loading} css={override} size={150} />
+            <div className="hi" style={{backgroundcolor: "black"}}>
+                <div className="loading" style={{position: "absolute", top: "50%",  left: "0",
+                right: "0", margin: "auto", transform: "translateY(-50%)", zIndex: '5'}}>
+                    <RingLoader color={color} loading={loading} css={override} size={150} />
+                    <div height="20%"></div>
+                    <p color={color} hidden={!loading} paddingTop="20">Private Key is being generated</p>
+                </div>
             </div>
         </div>
 
