@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from "react";
+import { useState, setState, state } from "react";
 import { css } from "@emotion/react";
 import RingLoader from "react-spinners/RingLoader";
 
@@ -30,9 +30,16 @@ const Navbar = () => {
     const [isOn, toggleIsOn] = useToggle();
     const [open, setOpen] = React.useState(false);
     const [openKey, setOpenKey] = React.useState(false);
-    const {publicK, setPublicK} = React.useContext(AccountContext)
+    const [publicK, setPublicK] = React.useState('')
     const [privateK, setPrivateK] = React.useState('')
-    const {balanceP, setBalance} = React.useContext(AccountContext)
+    const [balanceP, setBalance] = React.useState(0)
+    var publicKK = publicK
+
+    const addPublicKey = (v) => {
+        setPublicK(v);
+        console.log("wtf" + v)
+        publicKK = v
+    }
     
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -41,8 +48,7 @@ const Navbar = () => {
         }
         closeLogin()
         secretKey(privateK)
-        getBalance(publicK)
-        
+        getBalance(publicKK)
     }
 
     const openLogin = () => {
@@ -55,6 +61,10 @@ const Navbar = () => {
     const closeLogin = () => {
         setOpen(false);
     };
+
+    const startBal = (b) => {
+        setBalance(b);
+    }
 
     const closeLoginKey = () => {
         setOpenKey(false);
@@ -82,6 +92,7 @@ const Navbar = () => {
         return [value, toggle];
       }
 
+
     // Create New Keypair
     const newKeypair = () => {
         return StellarSdk.Keypair.random();
@@ -103,7 +114,8 @@ const Navbar = () => {
                 const responseJSON = await response.json();
                 console.log("SUCCESS! You have a new account :)\n", responseJSON);
                 setOpenKey(true);
-                setPublicK(keypair.publicKey())
+                addPublicKey(keypair.publicKey())
+                console.log(publicK)
                 toggleIsOn();
             } catch (error) {
                 console.log("ERROR!", error);
@@ -120,7 +132,7 @@ const Navbar = () => {
 
         const secretPair = StellarSdk.Keypair.fromSecret(privateKey)
         console.log(secretPair.publicKey())
-        setPublicK(secretPair.publicKey())
+        addPublicKey(secretPair.publicKey())
     };
 
     // Get Balance of Account
@@ -129,9 +141,14 @@ const Navbar = () => {
         (async function main() {
             try {
                 const account = await server.loadAccount(publicKey);
+                console.log("publicKey is " + publicKey)
                 account.balances.forEach(function (balance) {
-                    if (balance.asset_type = 'native') {
-                        setBalance(balance)
+                    console.log("it reaches forEach")
+                    if (balance.asset_type == 'native') {
+                        console.log("it reaches if statement")
+                        console.log("balance is " + balance.balance)
+                        startBal(balance.balance)
+                        console.log("does it work?")
                     }
                 });
             }
