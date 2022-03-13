@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/GeoStellar/static/css/main.7f9464cb.chunk.css",
+    "main.js": "/GeoStellar/static/js/main.2ec3746f.chunk.js",
+    "main.js.map": "/GeoStellar/static/js/main.2ec3746f.chunk.js.map",
+    "runtime-main.js": "/GeoStellar/static/js/runtime-main.89e2417d.js",
+    "runtime-main.js.map": "/GeoStellar/static/js/runtime-main.89e2417d.js.map",
+    "static/js/2.47a29f35.chunk.js": "/GeoStellar/static/js/2.47a29f35.chunk.js",
+    "static/js/2.47a29f35.chunk.js.map": "/GeoStellar/static/js/2.47a29f35.chunk.js.map",
+    "static/js/3.aba8daaa.chunk.js": "/GeoStellar/static/js/3.aba8daaa.chunk.js",
+    "static/js/3.aba8daaa.chunk.js.map": "/GeoStellar/static/js/3.aba8daaa.chunk.js.map",
+    "index.html": "/GeoStellar/index.html",
+    "static/css/main.7f9464cb.chunk.css.map": "/GeoStellar/static/css/main.7f9464cb.chunk.css.map",
+    "static/js/2.47a29f35.chunk.js.LICENSE.txt": "/GeoStellar/static/js/2.47a29f35.chunk.js.LICENSE.txt",
+    "static/media/alcatrazislandpixel.png": "/GeoStellar/static/media/alcatrazislandpixel.9a551445.png",
+    "static/media/buildingmonster.png": "/GeoStellar/static/media/buildingmonster.0809746e.png",
+    "static/media/deforestationmonsterpixel.png": "/GeoStellar/static/media/deforestationmonsterpixel.198649b2.png",
+    "static/media/dixiefiremonsterpixel.png": "/GeoStellar/static/media/dixiefiremonsterpixel.e4f85471.png",
+    "static/media/ferrybuildingpixel.png": "/GeoStellar/static/media/ferrybuildingpixel.c6a310e2.png",
+    "static/media/goldengatebridgepixel.png": "/GeoStellar/static/media/goldengatebridgepixel.fb64240d.png",
+    "static/media/housingmonster.png": "/GeoStellar/static/media/housingmonster.ee432bac.png",
+    "static/media/sfcityhallpixel.png": "/GeoStellar/static/media/sfcityhallpixel.f033cfe3.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.89e2417d.js",
+    "static/js/2.47a29f35.chunk.js",
+    "static/css/main.7f9464cb.chunk.css",
+    "static/js/main.2ec3746f.chunk.js"
+  ]
+}
