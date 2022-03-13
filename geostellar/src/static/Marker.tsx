@@ -28,6 +28,7 @@ const Marker = (props: any) => {
 
     return (
       <div>
+        {/* <div className="heatmap"> */}
         <Popup
     trigger={<div className="marker"
     style={{ backgroundColor: color, cursor: 'pointer', fontSize: '25px'}}
@@ -79,6 +80,7 @@ const Marker = (props: any) => {
   </Popup>
 );
       </div>
+      // </div>
       
       
     );
