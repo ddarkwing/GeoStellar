@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from "react";
+import { useState, setState, state } from "react";
 import { css } from "@emotion/react";
 import RingLoader from "react-spinners/RingLoader";
 
@@ -30,9 +30,18 @@ const Navbar = () => {
     const [isOn, toggleIsOn] = useToggle();
     const [open, setOpen] = React.useState(false);
     const [openKey, setOpenKey] = React.useState(false);
-    const {publicK, setPublicK} = React.useContext(AccountContext)
+    const [publicK, setPublicK] = React.useState('')
     const [privateK, setPrivateK] = React.useState('')
-    const {balanceP, setBalance} = React.useContext(AccountContext)
+    const [balanceP, setBalanceP] = React.useState(0.0)
+    var publicKK = publicK
+    var bal = balanceP
+    var auth = false
+
+    const addPublicKey = (v) => {
+        setPublicK(v);
+        console.log("wtf" + v)
+        publicKK = v
+    }
     
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -41,8 +50,7 @@ const Navbar = () => {
         }
         closeLogin()
         secretKey(privateK)
-        getBalance(publicK)
-        
+        getBalance(publicKK)
     }
 
     const openLogin = () => {
@@ -55,6 +63,15 @@ const Navbar = () => {
     const closeLogin = () => {
         setOpen(false);
     };
+
+    const startBal = (b) => {
+        console.log(b);
+        const newBalanceP = b;
+        setBalanceP(newBalanceP);
+        bal = newBalanceP
+        console.log(balanceP);
+        console.log("startBal initiated");
+    }
 
     const closeLoginKey = () => {
         setOpenKey(false);
@@ -80,7 +97,14 @@ const Navbar = () => {
         }, []);
         setLoading(value);
         return [value, toggle];
-      }
+    }
+
+    function changeButton() {
+        const btn = document.getElementById("top-btn")
+        console.log(publicKK)
+        btn.innerText = "" + publicKK.substring(0, 3) + "..." + publicKK.substring(publicKK.length - 3) + " | " + "Balance: " + bal.toString().substring(0, bal.toString().indexOf(".") + 3) + " XLM"
+        console.log(btn.value)
+    }
 
     // Create New Keypair
     const newKeypair = () => {
@@ -103,7 +127,10 @@ const Navbar = () => {
                 const responseJSON = await response.json();
                 console.log("SUCCESS! You have a new account :)\n", responseJSON);
                 setOpenKey(true);
-                setPublicK(keypair.publicKey())
+                addPublicKey(keypair.publicKey())
+                console.log(publicK)
+                changeButton();
+                getBalance(publicKK);
                 toggleIsOn();
             } catch (error) {
                 console.log("ERROR!", error);
@@ -120,7 +147,7 @@ const Navbar = () => {
 
         const secretPair = StellarSdk.Keypair.fromSecret(privateKey)
         console.log(secretPair.publicKey())
-        setPublicK(secretPair.publicKey())
+        addPublicKey(secretPair.publicKey())
     };
 
     // Get Balance of Account
@@ -129,9 +156,15 @@ const Navbar = () => {
         (async function main() {
             try {
                 const account = await server.loadAccount(publicKey);
+                console.log("publicKey is " + publicKey)
                 account.balances.forEach(function (balance) {
-                    if (balance.asset_type = 'native') {
-                        setBalance(balance)
+                    console.log("it reaches forEach")
+                    if (balance.asset_type == 'native') {
+                        console.log("it reaches if statement")
+                        console.log("balance is " + balance.balance)
+                        startBal(balance.balance)
+                        console.log("does it work?")
+                        changeButton();
                     }
                 });
             }
@@ -144,6 +177,7 @@ const Navbar = () => {
     let [color] = useState("#3E1BDB");
 
     return (
+        
         <div className = "navbar"
         style = {{ display: 'flex', 
         flexDirection: 'row',
@@ -160,12 +194,11 @@ const Navbar = () => {
 
                 <Button variant="text" theme={theme} style={{margin: '0px 15px'}}>NFT</Button>
 
-                if 
-
-                <Button variant="contained" startIcon={<AccountBalanceWalletIcon />}
+                <Button id="top-btn" variant="contained" startIcon={<AccountBalanceWalletIcon />}
                 theme={theme} style={{borderRadius: '25px', padding: '0px 25px', height: '50px', margin: '0px 15px', rowgap: '5px'}}
-                onClick={openLogin}><strong>Connect Account</strong>
+                onClick={openLogin}>Connect Account
                 </Button>
+
                 <Dialog open={open} onClose={closeLogin}>
                         <Grid container direction="row" justifyContent="space-between" alignItems="center">
                             <DialogTitle>Select Login Type</DialogTitle>
@@ -179,6 +212,7 @@ const Navbar = () => {
                             newAcc(keypair);
                             const acc = keypair.publicKey();
                             setPublicK(acc);
+                            getBalance(acc);
                             closeLogin();
                         }} startIcon={<AddCard />}>
                             
@@ -216,7 +250,7 @@ const Navbar = () => {
                         </DialogContent>
 
                         <DialogContent>
-                            Balance: {balanceP}
+                            Balance: {bal.toString().substring(0, bal.toString().indexOf(".") + 3) + " XLM"}
                         </DialogContent>
 
                 </Dialog>
