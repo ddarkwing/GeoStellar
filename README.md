@@ -28,9 +28,11 @@ We're definitely super proud of ourselves for creating a blockchain app from scr
 ## Future Goals
 Had we had more time to tackle this project, these are some of the features we would have loved to include in the project:
 
-Integrate with Albedo to allow users to keep their Secret Key a secret
-Leaderboard to increase the game-like aspect
-Friend system to make new friends and chat
-Make it more user-friendly
-Flushing out the current features
-so much more!
+- Integrate with Albedo to allow users to keep their Secret Key a secret
+- Leaderboard to increase the game-like aspect
+- Friend system to make new friends and chat
+- Make it more user-friendly
+- Flushing out the current features
+- so much more!
+
+## Some pictures of the project
