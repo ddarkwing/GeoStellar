@@ -201,7 +201,7 @@ const Navbar = () => {
             <div style={{marginTop: '40px', marginLeft: '30px'}}>
 
                 <Button variant="contained" theme={theme} style={{fontSize: '12px', fontWeight: '800', fontFamily: 'IBM Plex Sans', padding: '5px 10px', borderRadius: '10px', marginRight: '25px', backgroundColor: 'rgba(250, 0, 0, 0.8)'}}>MONSTER</Button>
-                <Button variant="contained" theme={theme} style={{fontSize: '12px', fontWeight: '800', fontFamily: 'IBM Plex Sans', padding: '5px 10px', borderRadius: '10px', marginRight: '25px', backgroundColor: 'rgba(0, 125, 0, 0.8)'}}>SITE</Button>
+                <Button variant="contained" theme={theme} style={{fontSize: '12px', fontWeight: '800', fontFamily: 'IBM Plex Sans', padding: '5px 10px', borderRadius: '10px', marginRight: '25px', backgroundColor: 'rgba(0, 125, 0, 0.8)'}}>ATTRACTION</Button>
                 <Button variant="contained" theme={theme} style={{fontSize: '12px', fontWeight: '800', fontFamily: 'IBM Plex Sans', padding: '5px 10px', borderRadius: '10px', marginRight: '25px', backgroundColor: 'rgba(0, 0, 255, 0.8)'}}>Current</Button>
 
             </div>
