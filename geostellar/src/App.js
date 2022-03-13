@@ -20,7 +20,7 @@ function App() {
             <div className="App">
               <Navbar />
 
-              <div className="content">
+              <div className="content" style={{display: 'flex', flexDirection: 'column', alignItems : 'center'}}>
                 <SimpleMap />
               </div>
 
