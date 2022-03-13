@@ -32,8 +32,10 @@ const Navbar = () => {
     const [openKey, setOpenKey] = React.useState(false);
     const [publicK, setPublicK] = React.useState('')
     const [privateK, setPrivateK] = React.useState('')
-    const [balanceP, setBalance] = React.useState(0)
+    const [balanceP, setBalanceP] = React.useState(0.0)
     var publicKK = publicK
+    var bal = balanceP
+    var auth = false
 
     const addPublicKey = (v) => {
         setPublicK(v);
@@ -63,7 +65,12 @@ const Navbar = () => {
     };
 
     const startBal = (b) => {
-        setBalance(b);
+        console.log(b);
+        const newBalanceP = b;
+        setBalanceP(newBalanceP);
+        bal = newBalanceP
+        console.log(balanceP);
+        console.log("startBal initiated");
     }
 
     const closeLoginKey = () => {
@@ -90,8 +97,14 @@ const Navbar = () => {
         }, []);
         setLoading(value);
         return [value, toggle];
-      }
+    }
 
+    function changeButton() {
+        const btn = document.getElementById("top-btn")
+        console.log(publicKK)
+        btn.innerText = "" + publicKK.substring(0, 3) + "..." + publicKK.substring(publicKK.length - 3) + " | " + "Balance: " + bal.toString().substring(0, bal.toString().indexOf(".") + 3) + " XLM"
+        console.log(btn.value)
+    }
 
     // Create New Keypair
     const newKeypair = () => {
@@ -116,6 +129,8 @@ const Navbar = () => {
                 setOpenKey(true);
                 addPublicKey(keypair.publicKey())
                 console.log(publicK)
+                changeButton();
+                getBalance(publicKK);
                 toggleIsOn();
             } catch (error) {
                 console.log("ERROR!", error);
@@ -149,6 +164,7 @@ const Navbar = () => {
                         console.log("balance is " + balance.balance)
                         startBal(balance.balance)
                         console.log("does it work?")
+                        changeButton();
                     }
                 });
             }
@@ -161,6 +177,7 @@ const Navbar = () => {
     let [color] = useState("#3E1BDB");
 
     return (
+        
         <div className = "navbar"
         style = {{ display: 'flex', 
         flexDirection: 'row',
@@ -177,12 +194,11 @@ const Navbar = () => {
 
                 <Button variant="text" theme={theme} style={{margin: '0px 15px'}}>NFT</Button>
 
-                if 
-
-                <Button variant="contained" startIcon={<AccountBalanceWalletIcon />}
+                <Button id="top-btn" variant="contained" startIcon={<AccountBalanceWalletIcon />}
                 theme={theme} style={{borderRadius: '25px', padding: '0px 25px', height: '50px', margin: '0px 15px', rowgap: '5px'}}
-                onClick={openLogin}><strong>Connect Account</strong>
+                onClick={openLogin}>Connect Account
                 </Button>
+
                 <Dialog open={open} onClose={closeLogin}>
                         <Grid container direction="row" justifyContent="space-between" alignItems="center">
                             <DialogTitle>Select Login Type</DialogTitle>
@@ -196,6 +212,7 @@ const Navbar = () => {
                             newAcc(keypair);
                             const acc = keypair.publicKey();
                             setPublicK(acc);
+                            getBalance(acc);
                             closeLogin();
                         }} startIcon={<AddCard />}>
                             
@@ -233,7 +250,7 @@ const Navbar = () => {
                         </DialogContent>
 
                         <DialogContent>
-                            Balance: {balanceP}
+                            Balance: {bal.toString().substring(0, bal.toString().indexOf(".") + 3) + " XLM"}
                         </DialogContent>
 
                 </Dialog>
