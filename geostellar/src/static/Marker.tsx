@@ -1,9 +1,14 @@
 import React from 'react';
 import Popup from "reactjs-popup";
+import SplitPane from 'react-split-pane';
 import './Marker.css';
+import { imageListClasses } from '@mui/material';  
+import Button from '@mui/material/Button';
+import theme from '../theme'
+import { css } from "@emotion/react"
 
 const Marker = (props: any) => {
-    const { color, name, id, lat, lng } = props;
+    const { color, name, id, lat, lng, desc, img} = props;
 
     function degreesToRadians(degrees) {
       return degrees * Math.PI / 180;
@@ -26,6 +31,10 @@ const Marker = (props: any) => {
 
     const dis = distanceInMilesBetweenEarthCoordinates(lat, lng, 37.7759, -122.41814)
 
+    const logo = require('../static/img/' + img)
+
+    console.log(logo)
+    
     return (
       <div>
         {/* <div className="heatmap"> */}
@@ -39,40 +48,37 @@ const Marker = (props: any) => {
     nested
   >
     {close => (
-      <div className="modal">
+      <div className="modal" style={{ fontFamily: 'IBM Plex Sans'}}>
         <button className="close" onClick={close}>
           &times;
         </button>
-        <div className="header"> Modal Title </div>
-        <div className="content">
-          {' '}
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, a nostrum.
-          Dolorem, repellat quidem ut, minima sint vel eveniet quibusdam voluptates
-          delectus doloremque, explicabo tempore dicta adipisci fugit amet dignissimos?
-          <br />
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur sit
-          commodi beatae optio voluptatum sed eius cumque, delectus saepe repudiandae
-          explicabo nemo nam libero ad, doloribus, voluptas rem alias. Vitae?
-        </div>
+        <div className="header"> {name} </div>
+        <SplitPane split="vertical" allowResize={false}>
+          <div className="content" style ={{padding: '50px 0px', display: 'flex', justifyContent: 'center'}}> 
+            <img src={logo} style = {{width: '200px', height:'200px'}}/><img></img>
+          </div>
+          <div className="content" style={{padding: '50px 0px', display: 'flex', justifyContent: 'center'}}>or you can use a plain old div</div>
+
+        </SplitPane>
+        
         <div className="actions">
         
-          <button
-              className="button"
+          <Button variant="outlined"
+              className="button" style={{borderColor: '#3E1BDB', marginRight: '20px'}}
               onClick={() => {
                 console.log('function 1 button');
-              }}
-            >
-              function 1
-          </button>
+              }}>
+              5 XLM
+          </Button>
+        
             
-          <button
-              className="button"
+          <Button variant="outlined"
+              className="button" style={{borderColor: '#3E1BDB', marginLeft: '40px'}}
               onClick={() => {
                 console.log('function 2 button');
-              }}
-            >
+              }}>
               function 2
-          </button>
+          </Button>
 
         </div>
       </div>

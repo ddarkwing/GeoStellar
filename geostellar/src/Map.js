@@ -28,12 +28,10 @@ class SimpleMap extends React.Component {
       function degreesToRadians(degrees) {
         return degrees * Math.PI / 180;
       }
-      
-    
 
       return (
 
-        <div style={{ height: '80vh', width: '100%' }}>
+        <div style={{ height: '70vh', width: '95%'}}>
           <GoogleMapReact
             bootstrapURLKeys={{ key: 'AIzaSyD2Hi_ftU2JKYazyhEHllr4xvvfezA_ZJU' }}
             defaultCenter={this.props.center}
@@ -52,6 +50,8 @@ class SimpleMap extends React.Component {
             lng= {housingMonsterCords["long"]}
             name="Housing Monster"
             color="red"
+            desc=""
+            img="housingmonster.png"
           />
 
           <Marker
@@ -59,6 +59,8 @@ class SimpleMap extends React.Component {
             lng= {deforestationMonsterCords["long"]}
             name="Deforestation Monster"
             color="red"
+            desc=""
+            img="deforestationmonsterpixel.png"
           />
 
           <Marker
@@ -66,6 +68,8 @@ class SimpleMap extends React.Component {
             lng= {dixieFireMonsterCords["long"]}
             name="Dixie Wildfire Monster"
             color="red"
+            desc=""
+            img="dixiefiremonsterpixel.png"
           />
 
           <Marker
@@ -73,6 +77,8 @@ class SimpleMap extends React.Component {
             lng= {goldenGateSightCords["long"]}
             name="The Golden Gate Bridge"
             color="green"
+            desc=""
+            img="goldengatebridgepixel.png"
           />
           
           <Marker
@@ -80,6 +86,8 @@ class SimpleMap extends React.Component {
             lng= {ferryBuildingSightCords["long"]}
             name="The Ferry Building"
             color="green"
+            desc=""
+            img="ferrybuildingpixel.png"
           />
 
           <Marker
@@ -87,6 +95,8 @@ class SimpleMap extends React.Component {
             lng= {sfCityHallSightCords["long"]}
             name="San Francisco City Hall"
             color="green"
+            desc=""
+            img="sfcityhallpixel.png"
           />
           
           <Marker
@@ -94,6 +104,8 @@ class SimpleMap extends React.Component {
             lng= {alcatrazIslandSightCords["long"]}
             name="Alcatraz Island"
             color="green"
+            desc=""
+            img="alcatrazislandpixel.png"
           />
 
           </GoogleMapReact>
