@@ -1,3 +1,12 @@
+```
+Use Secret Key: SDCEFVCY3HE54XKHTXYBHRQFHJZMFZHXQKSRJQZDXYMUL3Z2PCQWJ2Z2
+- Note: This transaction only works for the Building Monster.
+
+```
+
+
+
+
 ## Story and Background
 At first, we were thinking of creating a collectable marketplace where we, as the marketplace, could verify the collectables and issue NFTs as a proof of authenticity, as well as store those physical collectables for our users. This would've created a marketplace that items and ownerships could be easily transferred, traded, bought, or sold without having to constantly ship items across the globe. At the same time, those items could be redeemed at any time and shipped. Additionally, small royalty payments would've been the main costs to help maintain the service.
 
