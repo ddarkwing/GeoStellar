@@ -54,7 +54,6 @@ class SimpleMap extends React.Component {
             img="buildingmonster.png"
             AssetNum="GEOS0001"
             IssueAccount="SCZQKI2IEW3HU762LFK7RNVA6IIVS23DFDH4JKW6Q737KLWRVT4KVFHY"
-            IssuingKey=""
           />
 
           <Marker
@@ -66,7 +65,6 @@ class SimpleMap extends React.Component {
             img="deforestationmonsterpixel.png"
             AssetNum=""
             IssueAccount=""
-            IssuingKey=""
           />
 
           <Marker
@@ -78,7 +76,6 @@ class SimpleMap extends React.Component {
             img="dixiefiremonsterpixel.png"
             AssetNum=""
             IssueAccount=""
-            IssuingKey=""
           />
 
           <Marker
@@ -90,7 +87,6 @@ class SimpleMap extends React.Component {
             img="goldengatebridgepixel.png"
             AssetNum=""
             IssueAccount=""
-            IssuingKey=""
           />
           
           <Marker
@@ -102,7 +98,6 @@ class SimpleMap extends React.Component {
             img="ferrybuildingpixel.png"
             AssetNum=""
             IssueAccount=""
-            IssuingKey=""
           />
 
           <Marker
@@ -112,9 +107,8 @@ class SimpleMap extends React.Component {
             color="green"
             desc="Affectionately known as the People’s Palace, San Francisco City Hall is the seat of government for the City and County of San Francisco and a destination historic landmark. Designed by Arthur Brown, Jr., this Beaux-Arts building originally opened in 1915 as a monument to the City Beautiful movement. It's important to remember that local governments often have a more significant impact on the lives of their residents and voters than state or even the Federal government. With the ability to impact people's day-to-day lives and quality of life, it is essential for citizens to be engaged members of the public dialogue and decision-making process."
             img="sfcityhallpixel.png"
-            AssetNum=""
-            IssueAccount=""
-            IssuingKey=""
+            AssetNum="GEOS0002"
+            IssueAccount="GAXT2LYVDPE5GF5OQQAJH24PU6FVZPN7RB4X35OJMMTFTBAUKMTG3J35"
           />
           
           <Marker
@@ -126,7 +120,6 @@ class SimpleMap extends React.Component {
             img="alcatrazislandpixel.png"
             AssetNum=""
             IssueAccount=""
-            IssuingKey=""
           />
 
           </GoogleMapReact>

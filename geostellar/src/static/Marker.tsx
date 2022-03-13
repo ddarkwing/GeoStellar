@@ -9,7 +9,7 @@ import { css } from "@emotion/react"
 import StellarSdk from 'stellar-sdk';
 
 const Marker = (props: any) => {
-    const { color, name, id, lat, lng, publicKey, desc, img, AssetNum, IssueAccount} = props;
+    const { color, name, id, lat, lng, publicKey, desc, img, AssetNum, IssueAccount,  privateKey,} = props;
 
     var markerClass = new String(getStringValue(color))
 
@@ -51,45 +51,70 @@ const Marker = (props: any) => {
       
               // Add here if statement to check the marker we're point at and see the distance.
               // so we know which asset to add trustline to
+
+              var Hp = await getHP();
+
+              // Hp not working use constant as Hp
+              Hp = 10;
       
-              const monster = new StellarSdk.Asset({AssetNum}, publicKey)
-              const monster_issuingKey = StellarSdk.Keypair.fromSecret({IssueAccount})
-      
+              const receivingKey = StellarSdk.Keypair.fromSecret('SDCEFVCY3HE54XKHTXYBHRQFHJZMFZHXQKSRJQZDXYMUL3Z2PCQWJ2Z2')
+              const monster_issuingKey = StellarSdk.Keypair.fromSecret('SCZQKI2IEW3HU762LFK7RNVA6IIVS23DFDH4JKW6Q737KLWRVT4KVFHY')
+              const monster = new StellarSdk.Asset('GEOS0001', monster_issuingKey.publicKey())
+
               if (dis < 2) {
-                const acc = await server.loadAccount(publicKey)
-                const paymentXLM = 2/dis;
+                const acc = await server.loadAccount(receivingKey.publicKey())
+                var paymentXLM = Math.round(2/dis);
+
+                console.log(paymentXLM)
+
+                var hploss = Math.round(Hp-paymentXLM);
+                console.log(hploss)
+
+                const hploss_str = hploss.toString()
+                const hp_str = Hp.toString()
+                const payment_str = paymentXLM.toString()
+
       
                 const accPay = new StellarSdk.TransactionBuilder(acc, setup)
                 .addOperation(
                   StellarSdk.Operation.setOptions({
                     //Add homedomain
-                    signer: {ed25519PublicKey: publicKey,
-                            weight: 0},
-                    source: monster_issuingKey
+                    signer: {ed25519PublicKey: receivingKey.publicKey(),
+                            weight: '0'},
+                    source: monster_issuingKey.publicKey()
                   })
                 )
                 .addOperation(
                   StellarSdk.Operation.changeTrust({
                     asset: monster,
-                    limit: '5',
+                    limit: '10',
                   })
                 )
                 .addOperation(
                   StellarSdk.Operation.payment({
-                    destination: publicKey,
+                    destination: receivingKey.publicKey(),
                     asset: monster,
-                    amount: paymentXLM,
+                    amount: payment_str,
+                    source: monster_issuingKey.publicKey()
                   })
                 )
                 .addOperation(
                   StellarSdk.Operation.payment({
                     destination: monster_issuingKey.publicKey(),
                     asset: StellarSdk.Asset.native(),
-                    amount: 5,
+                    amount: '5',
                   })
-                ).setTimeout(180).build()
+                )
+                .addOperation(
+                  StellarSdk.Operation.manageData({
+                    name: 'HP',
+                    value: hploss_str,
+                    source: monster_issuingKey.publicKey()
+                  })
+                ).setTimeout(180).build()
       
-                // accPay.sign(monster_issuingKey, secretKey)
+                accPay.sign(monster_issuingKey)
+                accPay.sign(receivingKey)
       
                 server.submitTransaction(accPay)
       
@@ -99,7 +124,7 @@ const Marker = (props: any) => {
             
       
             } catch (error) {
-              console.log("Marker not hovered/Funds not enough!")
+              console.log("Marker not hovered/Funds not enough!", error)
             }
               
           }
@@ -117,8 +142,7 @@ const Marker = (props: any) => {
                   if (typeof value === 'string') {
                     if (key === 'HP') {
                       var b = Buffer.from(value, 'base64')
-                      console.log(b.toString())
-                      return parseInt(b.toString());
+                      return b.toString();
                     
                     }
                   }
@@ -131,13 +155,13 @@ const Marker = (props: any) => {
               }
             }
     
-        const getTop = async() => {
+        const getTop = async(IssueAccount) => {
                   try {
                     var maxAcc = ''
                     var maxDmg = 0
                     const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
           
-                    const monster_issuingKey = StellarSdk.Keypair.fromSecret({IssueAccount});
+                    const monster_issuingKey = StellarSdk.Keypair.fromSecret(IssueAccount);
                     const acc = await server.loadAccount(monster_issuingKey.publicKey());
                     acc.signers.forEach((element) => {
           
@@ -147,14 +171,16 @@ const Marker = (props: any) => {
           
                           const signerAcc = await server.loadAccount(element['key'])
                           signerAcc.balances.forEach((asset) => {
-                            if (asset.asset_type === {AssetNum}) {
+                            if (asset.asset_type === 'GEOS0001') {
                               if (asset.balance > maxDmg) {
-                                maxAcc = element;
+                                maxAcc = element['key'];
                                 maxDmg = asset.balance
                               }
                             }
                           });
                         }
+
+                      signers(element);
                       }
                     });
                     return [maxAcc, maxDmg];
@@ -176,6 +202,7 @@ const Marker = (props: any) => {
       }
     }
 
+
     const display = async() => {
       // create a new div element
       const currentDivHealth = document.getElementById("display-health");
@@ -192,14 +219,11 @@ const Marker = (props: any) => {
 
     }
 
-    console.log(logo)
-    display();
-    
     return (
       <div>
         {/* <div className="heatmap"> */}
         <Popup
-    trigger={<div className="marker"
+    trigger={<div className="marker" id={IssueAccount}
     style={{ backgroundColor: color, cursor: 'pointer', fontSize: '25px'}}
     title={"Distance: " + dis.toString().substring(0, dis.toString().indexOf(".")+3) + " miles"} 
     onMouseEnter={() => 
@@ -237,14 +261,6 @@ const Marker = (props: any) => {
               5 XLM
           </Button>
         
-            
-          <Button variant="outlined"
-              className="button" style={{borderColor: '#3E1BDB', marginLeft: '40px'}}
-              onClick={() => {
-                console.log('function 2 button pressed');
-              }}>
-              function 2
-          </Button>
 
         </div>
       </div>

@@ -4,6 +4,7 @@ import { css } from "@emotion/react";
 import HashLoader from "react-spinners/HashLoader";
 
 import theme from '../../theme'
+import Marker from '../../static/Marker'
 import {AccountContext, LoadingContext} from '../../Context.js';
 import StellarSdk, { StellarTomlResolver } from 'stellar-sdk'
 
@@ -34,6 +35,7 @@ const Navbar = () => {
     const [privateK, setPrivateK] = React.useState('')
     const [balanceP, setBalanceP] = React.useState(0.0)
     var publicKK = publicK
+    var privateKK = privateK
     var bal = balanceP
     var auth = false
 
@@ -47,6 +49,7 @@ const Navbar = () => {
         e.preventDefault()
         if (privateK) {
             console.log(privateK)
+            privateKK = privateK
         }
         closeLogin()
         secretKey(privateK)
@@ -143,7 +146,7 @@ const Navbar = () => {
 
     // Use Secret Key Callback
     const secretKey = (privateKey) => {
-
+        privateKK = privateKey
         console.log(publicK  + ' none')
 
         const secretPair = StellarSdk.Keypair.fromSecret(privateKey)
@@ -268,6 +271,8 @@ const Navbar = () => {
                             {publicK}
                             </DialogContent>
                         </div>
+
+                        
                         
                         <div style = {{display: 'flex', flexDirection: 'column'}}>
                             <DialogContent style = {{fontFamily: 'IBM Plex Sans', fontWeight: '800'}}>
@@ -298,9 +303,8 @@ const Navbar = () => {
                     <p color={color} hidden={!loading} paddingTop="20">Private Key is being generated</p>
                 </div>
             
-        </div>
 
-        
+        </div>
     )
 }
 
