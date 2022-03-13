@@ -1,7 +1,10 @@
 import React from 'react';
+import { useState } from "react";
+import { css } from "@emotion/react";
+import RingLoader from "react-spinners/RingLoader";
 
 import theme from '../../theme'
-import {AccountContext} from '../../Context.js';
+import {AccountContext, LoadingContext} from '../../Context.js';
 import StellarSdk from 'stellar-sdk'
 
 import Button from '@mui/material/Button';
@@ -18,13 +21,17 @@ import AddCircle from '@mui/icons-material/AddCircle';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import CloseIcon from '@mui/icons-material/Close';
 
+
 const Navbar = () => {
 
     // OPENING DIALOGS
 
+    const {loading, setLoading} = React.useContext(LoadingContext);
+    const [isOn, toggleIsOn] = useToggle();
     const [open, setOpen] = React.useState(false);
     const [openKey, setOpenKey] = React.useState(false);
     const {publicK, setPublicK} = React.useContext(AccountContext)
+    
 
     const openLogin = () => {
         setOpen(true);
@@ -45,7 +52,25 @@ const Navbar = () => {
 
     const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
 
+    // SPINNER
 
+    const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+  `;
+
+    // functions
+    function useToggle(initialValue = false) {
+        const [value, setValue] = React.useState(initialValue);
+        const toggle = React.useCallback(() => {
+          setValue(v => !v);
+        }, []);
+        console.log('value'+ value);
+        setLoading(value);
+        console.log(loading);
+        return [value, toggle];
+      }
 
     // Create New Keypair
     const newKeypair = () => {
@@ -59,16 +84,17 @@ const Navbar = () => {
         
         (async function main() {
             try {
+                toggleIsOn();
+                console.log(loading);
+         
                 const response = await fetch( `https://friendbot.stellar.org?addr=${encodeURIComponent(
                     keypair.publicKey(),
                     )}`,)
-                setOpen(false);
                 const responseJSON = await response.json();
                 console.log("SUCCESS! You have a new account :)\n", responseJSON);
-
                 setOpenKey(true);
                 setPublicK(keypair.publicKey())
-
+                toggleIsOn();
             } catch (error) {
                 console.log("ERROR!", error);
                 setPublicK("")
@@ -99,6 +125,8 @@ const Navbar = () => {
     //     });
     // }
 
+    let [color] = useState("#3E1BDB");
+
     return (
         <div className = "navbar"
         style = {{ display: 'flex', 
@@ -109,6 +137,7 @@ const Navbar = () => {
 
             <h1>Stellar</h1>
 
+        
             <div className = "navbar_selection">
 
                 <Button variant="text" theme={theme} style={{margin: '0px 15px'}}>MAP</Button>
@@ -136,7 +165,8 @@ const Navbar = () => {
                             setPublicK(acc);
                             closeLogin();
                         }} startIcon={<AddCard />}>
-                        Create New Keypair</Button>
+                            
+                            Create New Keypair</Button>
 
                         <TextField
                             autoFocus
@@ -164,7 +194,13 @@ const Navbar = () => {
 
                 </Dialog>
             </div>
+            <div className="loading" style={{position: "absolute", top: "50%",  left: "0",
+            right: "0", margin: "auto", transform: "translateY(-50%)"}}>
+                <RingLoader color={color} loading={loading} css={override} size={150} />
+            </div>
         </div>
+
+        
     )
 }
 
