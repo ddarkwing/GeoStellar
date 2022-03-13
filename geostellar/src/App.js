@@ -4,7 +4,6 @@ import './App.css';
 import SimpleMap from './Map';
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import SimpleMap from './Map'
 
 import {AccountContext, LoadingContext} from './Context.js';
 
@@ -22,6 +21,7 @@ function App() {
               <Navbar />
 
               <div className="content">
+                <SimpleMap />
               </div>
 
             </div>
