@@ -16,7 +16,7 @@ import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import KeyIcon from '@mui/icons-material/Key';
 import AddCard from '@mui/icons-material/AddCard';
-import AddCircle from '@mui/icons-material/AddCircle';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
 
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import CloseIcon from '@mui/icons-material/Close';
@@ -103,6 +103,7 @@ const Navbar = () => {
         const btn = document.getElementById("top-btn")
         console.log(publicKK)
         btn.innerText = "" + publicKK.substring(0, 3) + "..." + publicKK.substring(publicKK.length - 3) + " | " + "Balance: " + bal.toString().substring(0, bal.toString().indexOf(".") + 3) + " XLM"
+        btn.startIcon= <CreditCardIcon/>
         console.log(btn.value)
     }
 
@@ -185,17 +186,17 @@ const Navbar = () => {
         alignItems: 'center',
         justifyContent: 'space-between'}}>
 
-            <h1>Stellar</h1>
+            <h1 style={{fontSize: '35px', padding: '0px 0px', margin: '0px'}}>GeoStellar</h1>
 
         
             <div className = "navbar_selection">
 
-                <Button variant="text" theme={theme} style={{margin: '0px 15px'}}>MAP</Button>
+                <Button variant="text" theme={theme} style={{fontSize: '25px', margin: '0px 30px'}}>MAP</Button>
 
-                <Button variant="text" theme={theme} style={{margin: '0px 15px'}}>NFT</Button>
+                <Button variant="text" theme={theme} style={{fontSize: '25px', margin: '0px 30px'}}>NFT</Button>
 
                 <Button id="top-btn" variant="contained" startIcon={<AccountBalanceWalletIcon />}
-                theme={theme} style={{borderRadius: '25px', padding: '0px 25px', height: '50px', margin: '0px 15px', rowgap: '5px'}}
+                theme={theme} style={{borderRadius: '25px', fontSize: '25px', padding: '0px 25px', height: '70px', margin: '0px 15px 0px 40px', rowgap: '5px'}}
                 onClick={openLogin}>Connect Account
                 </Button>
 
@@ -218,7 +219,7 @@ const Navbar = () => {
                             
                             Create New Keypair</Button>
                             
-                        <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+                        <form style = {{padding : '15px'}} noValidate autoComplete="off" onSubmit={handleSubmit}>
                             <TextField
                                 onChange={(e) => setPrivateK(e.target.value)}
                                 autoFocus
@@ -255,14 +256,14 @@ const Navbar = () => {
 
                 </Dialog>
             </div>
-            <div className="hi" style={{backgroundcolor: "black"}}>
+            
                 <div className="loading" style={{position: "absolute", top: "50%",  left: "0",
                 right: "0", margin: "auto", transform: "translateY(-50%)", zIndex: '5'}}>
                     <RingLoader color={color} loading={loading} css={override} size={150} />
                     <div height="20%"></div>
                     <p color={color} hidden={!loading} paddingTop="20">Private Key is being generated</p>
                 </div>
-            </div>
+            
         </div>
 
         
