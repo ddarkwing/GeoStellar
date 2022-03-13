@@ -194,9 +194,13 @@ const Navbar = () => {
 
                 </Dialog>
             </div>
-            <div className="loading" style={{position: "absolute", top: "50%",  left: "0",
-            right: "0", margin: "auto", transform: "translateY(-50%)"}}>
-                <RingLoader color={color} loading={loading} css={override} size={150} />
+            <div className="hi" style={{backgroundcolor: "black"}}>
+                <div className="loading" style={{position: "absolute", top: "50%",  left: "0",
+                right: "0", margin: "auto", transform: "translateY(-50%)", zIndex: '5'}}>
+                    <RingLoader color={color} loading={loading} css={override} size={150} />
+                    <div height="20%"></div>
+                    <p color={color} hidden={!loading} paddingTop="20">Private Key is being generated</p>
+                </div>
             </div>
         </div>
 

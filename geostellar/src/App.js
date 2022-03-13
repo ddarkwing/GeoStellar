@@ -21,6 +21,7 @@ function App() {
               <Navbar />
 
               <div className="content">
+                <SimpleMap />
               </div>
 
             </div>
